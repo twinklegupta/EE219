@@ -12,7 +12,8 @@ from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn import metrics
 import numpy as np
 import scipy
-from sklearn.decomposition import TruncatedSVD
+from sklearn.decomposition import TruncatedSVD, NMF
+from sklearn.metrics import confusion_matrix, cluster
 
 stemmer = nltk.stem.SnowballStemmer('english')
 stop_words = text.ENGLISH_STOP_WORDS  # stopwords
@@ -102,14 +103,142 @@ dimension, = s.shape
 svd = TruncatedSVD(n_components=dimension,n_iter=10)
 svd.fit(twenty_tfidf_matrix)
 twenty_tfidf_matrix_r=svd.fit_transform(twenty_tfidf_matrix)
-print(twenty_tfidf_matrix_r)
+#print(twenty_tfidf_matrix_r)
+
+#
+#values = [2,10,50,100,200,500]
+#for dim in np.array(values):
+#    print(dim)
+#    svd = TruncatedSVD(n_components=dim, random_state=42)
+#    #svd.fit(twenty_tfidf_matrix)
+#    twenty_tfidf_matrix_r = svd.fit_transform(twenty_tfidf_matrix)
+#    km = KMeans(n_clusters=2, init='k-means++', n_init=10, max_iter=300, precompute_distances='auto', verbose=0,
+#                copy_x=True, n_jobs=1, algorithm='auto').fit(twenty_tfidf_matrix_r)
+#    clustered_labels = []
+#    c = 0
+#    for i in labels:
+#        if (i < 4):
+#            clustered_labels.append(1)
+#        else:
+#            clustered_labels.append(0)
+#            c += 1
+#    clustered_labels1 = np.array(clustered_labels)
+#    # print("Homogeneity: %0.3f" % metrics.homogeneity_score(clustered_labels, km.labels_))
+#    # print("Completeness: %0.3f" % metrics.completeness_score(labels, km.labels_))
+#    # print("V-measure: %0.3f" % metrics.v_measure_score(labels, km.labels_))
+#    # print("Adjusted Rand-Index: %.3f"% metrics.adjusted_rand_score(labels, km.labels_))
+#    explained_variance = svd.explained_variance_ratio_.sum()
+#    print("\nExplained variance of the SVD step with {} components: {}%".format(dim, int(explained_variance * 100)))
+#    
+#    c = 0;
+#    comCorrect = 0
+#    comIncorrect = 0
+#    recCorrect = 0
+#    recIncorrect = 0
+#    
+#    for i in km.labels_:
+#        if(i == 0 and clustered_labels1[c] == 0): recCorrect += 1
+#        elif (i == 1 and clustered_labels1[c] == 0): recIncorrect += 1
+#        elif (i == 1 and clustered_labels1[c] == 1): comCorrect += 1
+#        else : comIncorrect += 1
+#        c += 1
+#    
+#    
+#    if(comCorrect + recCorrect < comIncorrect + recIncorrect):
+#        comCorrect,comIncorrect = comIncorrect,comCorrect
+#        recCorrect,recIncorrect = recIncorrect,recCorrect
+#    
+#    
+#    # print("comCorrect : ",comCorrect)
+#    # print("comIncorrect : ",comIncorrect)
+#    # print("recCorrect : ",recCorrect)
+#    # print("recIncorrect : ",recIncorrect)
+#    print(count)
+#    print("confusion matrix")
+#    
+#    print(recCorrect, recIncorrect)
+#    print(comIncorrect, comCorrect)
+#    
+#    print ("Error : ")
+#    print (float(comIncorrect+recIncorrect)/float(comIncorrect+comCorrect+recIncorrect+recCorrect))
+#
+
+### ANALYZING FOR DIFFERENT DIEMNSIONS
+#min_error = 0
+#result_dim = 0
+#
+#for dim in np.arange(2,100):
+#    print(dim)
+#    svd = TruncatedSVD(n_components=dim, random_state=42)
+#    #svd.fit(twenty_tfidf_matrix)
+#    twenty_tfidf_matrix_r = svd.fit_transform(twenty_tfidf_matrix)
+#    km = KMeans(n_clusters=2, init='k-means++', n_init=10, max_iter=300, precompute_distances='auto', verbose=0,
+#                copy_x=True, n_jobs=1, algorithm='auto').fit(twenty_tfidf_matrix_r)
+#    clustered_labels = []
+#    c = 0
+#    for i in labels:
+#        if (i < 4):
+#            clustered_labels.append(1)
+#        else:
+#            clustered_labels.append(0)
+#            c += 1
+#    clustered_labels1 = np.array(clustered_labels)
+#    # print("Homogeneity: %0.3f" % metrics.homogeneity_score(clustered_labels, km.labels_))
+#    # print("Completeness: %0.3f" % metrics.completeness_score(labels, km.labels_))
+#    # print("V-measure: %0.3f" % metrics.v_measure_score(labels, km.labels_))
+#    # print("Adjusted Rand-Index: %.3f"% metrics.adjusted_rand_score(labels, km.labels_))
+#    explained_variance = svd.explained_variance_ratio_.sum()
+#    print("\nExplained variance of the SVD step with {} components: {}%".format(dim, int(explained_variance * 100)))
+#    
+#    c = 0;
+#    comCorrect = 0
+#    comIncorrect = 0
+#    recCorrect = 0
+#    recIncorrect = 0
+#    
+#    for i in km.labels_:
+#        if(i == 0 and clustered_labels1[c] == 0): recCorrect += 1
+#        elif (i == 1 and clustered_labels1[c] == 0): recIncorrect += 1
+#        elif (i == 1 and clustered_labels1[c] == 1): comCorrect += 1
+#        else : comIncorrect += 1
+#        c += 1
+#    
+#    
+#    if(comCorrect + recCorrect < comIncorrect + recIncorrect):
+#        comCorrect,comIncorrect = comIncorrect,comCorrect
+#        recCorrect,recIncorrect = recIncorrect,recCorrect
+#    
+#    
+#    # print("comCorrect : ",comCorrect)
+#    # print("comIncorrect : ",comIncorrect)
+#    # print("recCorrect : ",recCorrect)
+#    # print("recIncorrect : ",recIncorrect)
+#    print(count)
+#    print("confusion matrix")
+#    
+#    print(recCorrect, recIncorrect)
+#    print(comIncorrect, comCorrect)
+#    
+#    print ("Error : ")
+#    error = float(comIncorrect+recIncorrect)/float(comIncorrect+comCorrect+recIncorrect+recCorrect)
+#    print (error)
+#    
+#    if metrics.homogeneity_score(clustered_labels, km.labels_) > min_error: 
+#        min_error = metrics.homogeneity_score(clustered_labels, km.labels_)
+#        result_dim = dim
+#
+#print(result_dim)
 
 
-# varying dimensions to find variances and best dimension ## as Sanity check
-for dim in range(2,100):
-    svd = TruncatedSVD(n_components=dim, n_iter=10)
-    svd.fit(twenty_tfidf_matrix)
-    twenty_tfidf_matrix_r = svd.fit_transform(twenty_tfidf_matrix)
+######################################################################################
+#                                        NMF                                         #
+######################################################################################
+
+nmf_result_dim = 0
+nmf_min_error = 1
+for dim in np.arange(2,100):
+    nmf = NMF(n_components=dim, init='random', random_state=0) 
+    twenty_tfidf_matrix_r = nmf.fit_transform(twenty_tfidf_matrix)
     km = KMeans(n_clusters=2, init='k-means++', n_init=10, max_iter=300, precompute_distances='auto', verbose=0,
                 copy_x=True, n_jobs=1, algorithm='auto').fit(twenty_tfidf_matrix_r)
     clustered_labels = []
@@ -121,92 +250,50 @@ for dim in range(2,100):
             clustered_labels.append(0)
             c += 1
     clustered_labels1 = np.array(clustered_labels)
-    print("Homogeneity: %0.3f" % metrics.homogeneity_score(clustered_labels, km.labels_))
-    print("Completeness: %0.3f" % metrics.completeness_score(labels, km.labels_))
-    print("V-measure: %0.3f" % metrics.v_measure_score(labels, km.labels_))
-    print("Adjusted Rand-Index: %.3f"% metrics.adjusted_rand_score(labels, km.labels_))
-
-
+    # print("Homogeneity: %0.3f" % metrics.homogeneity_score(clustered_labels, km.labels_))
+    # print("Completeness: %0.3f" % metrics.completeness_score(labels, km.labels_))
+    # print("V-measure: %0.3f" % metrics.v_measure_score(labels, km.labels_))
+    # print("Adjusted Rand-Index: %.3f"% metrics.adjusted_rand_score(labels, km.labels_))
+    #explained_variance = nmf.explained_variance_ratio_.sum()
+    #print("\nExplained variance of the SVD step with {} components: {}%".format(dim, int(explained_variance * 100)))
+    
     c = 0;
     comCorrect = 0
     comIncorrect = 0
     recCorrect = 0
     recIncorrect = 0
-
+    
     for i in km.labels_:
         if(i == 0 and clustered_labels1[c] == 0): recCorrect += 1
         elif (i == 1 and clustered_labels1[c] == 0): recIncorrect += 1
         elif (i == 1 and clustered_labels1[c] == 1): comCorrect += 1
         else : comIncorrect += 1
         c += 1
-
-
+    
+    
     if(comCorrect + recCorrect < comIncorrect + recIncorrect):
         comCorrect,comIncorrect = comIncorrect,comCorrect
         recCorrect,recIncorrect = recIncorrect,recCorrect
-
-
+    
+    
     # print("comCorrect : ",comCorrect)
     # print("comIncorrect : ",comIncorrect)
     # print("recCorrect : ",recCorrect)
     # print("recIncorrect : ",recIncorrect)
-    print(count)
+    #  print(count)
     print("confusion matrix")
-
+    
     print(recCorrect, recIncorrect)
     print(comIncorrect, comCorrect)
+    
+    print ("Error : ")
+    error = float(comIncorrect+recIncorrect)/float(comIncorrect+comCorrect+recIncorrect+recCorrect)
+    print (error)
+    
+    if metrics.homogeneity_score(clustered_labels, km.labels_) > min_error: 
+        min_error = metrics.homogeneity_score(clustered_labels, km.labels_)
+        result_dim = dim
+    
+    print("\nReconstrction error with {} components: {}%".format(dim, nmf.reconstruction_err_))
 
-    print "Error : ",(float(comIncorrect+recIncorrect)/float(comIncorrect+comCorrect+recIncorrect+recCorrect))*100
-
-
-# # for count in range(5):
-#
-# km = KMeans(n_clusters=2, init='k-means++', n_init=10, max_iter=300, precompute_distances='auto', verbose=0,
-#                 copy_x=True, n_jobs=1, algorithm='auto').fit(twenty_tfidf_matrix_r)
-# print(km.labels_.shape)
-#
-# clustered_labels = []
-# c = 0
-# for i in labels:
-#     if (i < 4):
-#         clustered_labels.append(1)
-#     else:
-#         clustered_labels.append(0)
-#         c += 1
-# clustered_labels1 = np.array(clustered_labels)
-# print("Homogeneity: %0.3f" % metrics.homogeneity_score(clustered_labels, km.labels_))
-# print("Completeness: %0.3f" % metrics.completeness_score(labels, km.labels_))
-# print("V-measure: %0.3f" % metrics.v_measure_score(labels, km.labels_))
-# print("Adjusted Rand-Index: %.3f"% metrics.adjusted_rand_score(labels, km.labels_))
-#
-#
-# c = 0;
-# comCorrect = 0
-# comIncorrect = 0
-# recCorrect = 0
-# recIncorrect = 0
-#
-# for i in km.labels_:
-#     if(i == 0 and clustered_labels1[c] == 0): recCorrect += 1
-#     elif (i == 1 and clustered_labels1[c] == 0): recIncorrect += 1
-#     elif (i == 1 and clustered_labels1[c] == 1): comCorrect += 1
-#     else : comIncorrect += 1
-#     c += 1
-#
-#
-# if(comCorrect + recCorrect < comIncorrect + recIncorrect):
-#     comCorrect,comIncorrect = comIncorrect,comCorrect
-#     recCorrect,recIncorrect = recIncorrect,recCorrect
-#
-#
-# # print("comCorrect : ",comCorrect)
-# # print("comIncorrect : ",comIncorrect)
-# # print("recCorrect : ",recCorrect)
-# # print("recIncorrect : ",recIncorrect)
-# print(count)
-# print("confusion matrix")
-#
-# print(recCorrect, recIncorrect)
-# print(comIncorrect, comCorrect)
-#
-# print "Error : ",(float(comIncorrect+recIncorrect)/float(comIncorrect+comCorrect+recIncorrect+recCorrect))*100
+print(result_dim)
