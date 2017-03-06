@@ -95,15 +95,11 @@ doc_count, term_count = twenty_tfidf_matrix.shape
 print ("Total number of terms are", term_count)
 
 
-for count in range(5):
+for count in range(10):
 
     km = KMeans(n_clusters=2, init='k-means++', n_init=10, max_iter=300, precompute_distances='auto', verbose=0,
                 copy_x=True, n_jobs=1, algorithm='auto').fit(twenty_tfidf_matrix)
     print(km.labels_.shape)
-
-    # for i in km.labels_:
-    #     print(i)
-    #     print("#####")
 
     clustered_labels = []
     c = 0
@@ -114,12 +110,12 @@ for count in range(5):
             clustered_labels.append(0)
         c += 1
     clustered_labels1 = np.array(clustered_labels)
-    print("Homogeneity: " % metrics.homogeneity_score(clustered_labels, km.labels_))
-    print("Completeness: " % metrics.completeness_score(labels, km.labels_))
-    print("V-measure: " % metrics.v_measure_score(labels, km.labels_))
+    print("Homogeneity: " ,  metrics.homogeneity_score(clustered_labels, km.labels_))
+    print("Completeness: " , metrics.completeness_score(labels, km.labels_))
+    print("V-measure: " ,  metrics.v_measure_score(labels, km.labels_))
     print("Adjusted Rand-Index: "
-          % metrics.adjusted_rand_score(labels, km.labels_))
-    print("Adjusted mutual info score: " % metrics.adjusted_mutual_info_score(clustered_labels, km.labels_))
+          ,  metrics.adjusted_rand_score(labels, km.labels_))
+    print("Adjusted mutual info score: " , metrics.adjusted_mutual_info_score(clustered_labels, km.labels_))
 
 
     c = 0;
@@ -151,7 +147,8 @@ for count in range(5):
     print(recCorrect, recIncorrect)
     print(comIncorrect, comCorrect)
 
-    print "Error : ",(float(comIncorrect+recIncorrect)/float(comIncorrect+comCorrect+recIncorrect+recCorrect))*100
+    print("Error : ")
+    print ((float(comIncorrect+recIncorrect)/float(comIncorrect+comCorrect+recIncorrect+recCorrect))*100)
 
 
 #results :
@@ -294,112 +291,124 @@ for count in range(5):
 
 
 ################ final results ###################
-# Homogeneity:
-# Completeness:
-# V-measure:
-# Adjusted Rand-Index:
-# Adjusted mutual info score:
-# 0
-# confusion matrix
-# (2355, 34)
-# (458, 1885)
-# Error :  10.3972950127
-# (4732,)
-# Homogeneity:
-# Completeness:
-# V-measure:
-# Adjusted Rand-Index:
-# Adjusted mutual info score:
-# 1
-# confusion matrix
-# (2351, 38)
-# (470, 1873)
-# Error :  10.7354184277
-# (4732,)
-# Homogeneity:
-# Completeness:
-# V-measure:
-# Adjusted Rand-Index:
-# Adjusted mutual info score:
-# 2
-# confusion matrix
-# (2352, 37)
-# (519, 1824)
-# Error :  11.7497886729
-# (4732,)
-# Homogeneity:
-# Completeness:
-# V-measure:
-# Adjusted Rand-Index:
-# Adjusted mutual info score:
-# 3
-# confusion matrix
-# (2346, 43)
-# (430, 1913)
-# Error :  9.99577345731
-# (4732,)
-# Homogeneity:
-# Completeness:
-# V-measure:
-# Adjusted Rand-Index:
-# Adjusted mutual info score:
-# 4
-# confusion matrix
-# (2332, 57)
-# (381, 1962)
-# Error :  9.2561284869
+#Homogeneity:  0.573764517677
+#Completeness:  0.594947514661
+#V-measure:  0.292524907532
+#Adjusted Rand-Index:  0.157788235319
+#Adjusted mutual info score:  0.573699506393
+#0
+#confusion matrix
+#2348 41
+#431 1912
+#Error : 
+#9.974640743871513
+#(4732,)
+#Homogeneity:  0.551443459574
+#Completeness:  0.576115765267
+#V-measure:  0.281936774729
+#Adjusted Rand-Index:  0.149652414146
+#Adjusted mutual info score:  0.551375043528
+#1
+#confusion matrix
+#2352 37
+#480 1863
+#Error : 
+#10.925612848689772
+#(4732,)
+#Homogeneity:  0.544824275437
+#Completeness:  0.571499802009
+#V-measure:  0.279081389011
+#Adjusted Rand-Index:  0.147022834135
+#Adjusted mutual info score:  0.54475484968
+#2
+#confusion matrix
+#2355 34
+#499 1844
+#Error : 
+#11.263736263736265
+#(4732,)
+#Homogeneity:  0.567192502909
+#Completeness:  0.591055866171
+#V-measure:  0.290015442647
+#Adjusted Rand-Index:  0.15491911156
+#Adjusted mutual info score:  0.567126489125
+#3
+#confusion matrix
+#2352 37
+#451 1892
+#Error : 
+#10.312764158918004
+#(4732,)
+#Homogeneity:  0.549115928481
+#Completeness:  0.573092583941
+#V-measure:  0.280589176086
+#Adjusted Rand-Index:  0.149632199783
+#Adjusted mutual info score:  0.549047157454
+#4
+#confusion matrix
+#2349 40
+#478 1865
+#Error : 
+#10.946745562130179
+#(4732,)
+#Homogeneity:  0.545328906089
+#Completeness:  0.571657049334
+#V-measure:  0.279781217633
+#Adjusted Rand-Index:  0.14887073276
+#Adjusted mutual info score:  0.545259557426
+#5
+#confusion matrix
+#2348 41
+#483 1860
+#Error : 
+#11.073541842772611
+#(4732,)
+#Homogeneity:  0.602026866205
+#Completeness:  0.620555095899
+#V-measure:  0.307214480263
+#Adjusted Rand-Index:  0.169962863127
+#Adjusted mutual info score:  0.601966165949
+#6
+#confusion matrix
+#2332 57
+#353 1990
+#Error : 
+#8.664412510566356
+#(4732,)
+#Homogeneity:  0.618149816209
+#Completeness:  0.631310091078
+#V-measure:  0.313030026384
+#Adjusted Rand-Index:  0.173969348726
+#Adjusted mutual info score:  0.618091575155
+#7
+#confusion matrix
+#2332 57
+#327 2016
+#Error : 
+#8.114961961115807
+#(4732,)
+#Homogeneity:  0.555986875293
+#Completeness:  0.581981276583
+#V-measure:  0.284780244321
+#Adjusted Rand-Index:  0.150790406646
+#Adjusted mutual info score:  0.555919152226
+#8
+#confusion matrix
+#2355 34
+#478 1865
+#Error : 
+#10.819949281487743
+#(4732,)
+#Homogeneity:  0.591580160751
+#Completeness:  0.610618925197
+#V-measure:  0.30161167143
+#Adjusted Rand-Index:  0.165528264678
+#Adjusted mutual info score:  0.591517867016
+#9
+#confusion matrix
+#2338 51
+#381 1962
+#Error : 
+#9.129332206255283
 
-# Homogeneity:
-# Completeness:
-# V-measure:
-# Adjusted Rand-Index:
-# Adjusted mutual info score:
-# 0
-# confusion matrix
-# (2331, 58)
-# (374, 1969)
-# Error :  9.12933220626
-# (4732,)
-# Homogeneity:
-# Completeness:
-# V-measure:
-# Adjusted Rand-Index:
-# Adjusted mutual info score:
-# 1
-# confusion matrix
-# (2350, 39)
-# (460, 1883)
-# Error :  10.5452240068
-# (4732,)
-# Homogeneity:
-# Completeness:
-# V-measure:
-# Adjusted Rand-Index:
-# Adjusted mutual info score:
-# 2
-# confusion matrix
-# (2353, 36)
-# (482, 1861)
-# Error :  10.9467455621
-# (4732,)
-# Homogeneity:
-# Completeness:
-# V-measure:
-# Adjusted Rand-Index:
-# Adjusted mutual info score:
-# 3
-# confusion matrix
-# (2330, 59)
-# (372, 1971)
-# Error :  9.10819949281
-# (4732,)
-# Homogeneity:
-# Completeness:
-# V-measure:
-# Adjusted Rand-Index:
-# Adjusted mutual info score:
-# 4
-# confusion matrix
-# (2352, 37)
-# (479, 1864)
-# Error :  10.9044801352
+    
